@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Spinner } from 'react-bootstrap';
