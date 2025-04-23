@@ -1,19 +1,22 @@
 
+
 import React from 'react';
+import './App.css'
+
 import { Routes, Route, useLocation  } from 'react-router-dom';
-import Home from './Pages/Home';
+import Home from './pages/Home.jsx';
 import Navigation from './components/Navigation';
-import Contact from './Pages/Contact';
-import About from './Pages/About';
+import Contact from './pages/Contact.jsx';
+import About from './pages/About.jsx';
 import Footer from './components/Footer';
-import LoginPage from './Pages/LoginPage';
-import SignUp from './Pages/Signup';
-import Cart from "./Pages/Cart" 
-import Logout from "./Pages/Logout" 
-import Profile from "./Pages/Profile"
-import Admin from "./Pages/AdminPage"
-import Products from './Pages/Products';
-import Update from './Pages/Update';
+import LoginPage from './pages/LoginPage.jsx';
+import SignUp from './pages/Signup.jsx';
+import Cart from './pages/Cart.jsx';
+import Logout from './pages/Logout.jsx';
+import Profile from './pages/Profile.jsx';
+import AdminPage from './pages/AdminPage.jsx';
+import Products from './pages/Products.jsx';
+import Update from './pages/Update.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -44,7 +47,7 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin" element={<AdminPage />} />
         <Route path='/products' element={<Products />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/update" element={<Update />} />

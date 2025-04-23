@@ -1,65 +1,91 @@
+
 import { Link } from "react-router-dom";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { Container, Row, Col, ListGroup, Button } from "react-bootstrap";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-800 text-white py-10">
-      <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-        
-        {/* About Section */}
-        <div>
-          <h2 className="text-xl font-semibold mb-4">About Us</h2>
-          <p className="text-gray-400 text-sm">
-            We provide high-quality products at the best prices.
-          </p>
-        </div>
+    <footer className="bg-success text-black pt-5 pb-4">
+      <Container>
+        <Row className="mb-4">
+          {/* About Us Section */}
+          <Col xs={12} md={4} className="mb-4 mb-md-0">
+            <h5 className="fw-bold mb-3">About Us</h5>
+            <p className="">
+              We are committed to providing the best products at unbeatable prices. Join our journey to bring quality to your doorstep.
+            </p>
+          </Col>
 
-        {/* Quick Links */}
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Quick Links</h2>
-          <ul className="space-y-2">
-            <li><Link to="/products" className="text-gray-400 hover:text-white">Products</Link></li>
-            <li><Link to="/about" className="text-gray-400 hover:text-white">About</Link></li>
-            <li><Link to="/contact" className="text-gray-400 hover:text-white">Contact</Link></li>
-            <li><Link to="/faq" className="text-gray-400 hover:text-white">FAQ</Link></li>
-          </ul>
-        </div>
+          {/* Quick Links */}
+          <Col xs={12} md={4} className="mb-4 mb-md-0">
+            <h5 className="fw-bold mb-3">Quick Links</h5>
+            <ListGroup variant="flush">
+              <ListGroup.Item className="bg-dark border-0 text-muted p-0 mb-2">
+                <Link to="/products" className="text-white text-decoration-none d-block p-2 hover-link">Products</Link>
+              </ListGroup.Item>
+              <ListGroup.Item className="bg-dark border-0 text-muted p-0 mb-2">
+                <Link to="/about" className="text-white text-decoration-none d-block p-2 hover-link">About</Link>
+              </ListGroup.Item>
+              <ListGroup.Item className="bg-dark border-0 text-muted p-0 mb-2">
+                <Link to="/contact" className="text-white text-decoration-none d-block p-2 hover-link">Contact</Link>
+              </ListGroup.Item>
+              <ListGroup.Item className="bg-dark border-0 text-muted p-0 mb-2">
+                <Link to="/faq" className="text-white text-decoration-none d-block p-2 hover-link">FAQ</Link>
+              </ListGroup.Item>
+            </ListGroup>
+          </Col>
 
-        {/* Customer Service */}
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Customer Service</h2>
-          <ul className="space-y-2">
-            <li><Link to="/returns" className="text-gray-400 hover:text-white">Returns</Link></li>
-            <li><Link to="/shipping" className="text-gray-400 hover:text-white">Shipping</Link></li>
-            <li><Link to="/terms" className="text-gray-400 hover:text-white">Terms & Conditions</Link></li>
-            <li><Link to="/privacy" className="text-gray-400 hover:text-white">Privacy Policy</Link></li>
-          </ul>
-        </div>
+          {/* Customer Service Section */}
+          <Col xs={12} md={4} className="mb-4 mb-md-0">
+            <h5 className="fw-bold mb-3">Customer Service</h5>
+            <ListGroup variant="flush">
+              <ListGroup.Item className="bg-dark border-0 text-muted p-0 mb-2">
+                <Link to="/returns" className="text-white text-decoration-none d-block p-2 hover-link">Returns</Link>
+              </ListGroup.Item>
+              <ListGroup.Item className="bg-dark border-0 text-muted p-0 mb-2">
+                <Link to="/shipping" className="text-white text-decoration-none d-block p-2 hover-link">Shipping</Link>
+              </ListGroup.Item>
+              <ListGroup.Item className="bg-dark border-0 text-muted p-0 mb-2">
+                <Link to="/terms" className="text-white text-decoration-none d-block p-2 hover-link">Terms & Conditions</Link>
+              </ListGroup.Item>
+              <ListGroup.Item className="bg-dark border-0 text-muted p-0 mb-2">
+                <Link to="/privacy" className="text-white text-decoration-none d-block p-2 hover-link">Privacy Policy</Link>
+              </ListGroup.Item>
+            </ListGroup>
+          </Col>
+        </Row>
 
-        {/* Follow Us */}
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Follow Us</h2>
-          <div className="flex space-x-4">
-            <Link to="https://facebook.com" className="text-gray-400 hover:text-white text-2xl">
-              <FaFacebook />
-            </Link>
-            <Link to="https://twitter.com" className="text-gray-400 hover:text-white text-2xl">
-              <FaTwitter />
-            </Link>
-            <Link to="https://instagram.com" className="text-gray-400 hover:text-white text-2xl">
-              <FaInstagram />
-            </Link>
-            <Link to="https://linkedin.com" className="text-gray-400 hover:text-white text-2xl">
-              <FaLinkedin />
-            </Link>
-          </div>
-        </div>
-      </div>
+        {/* Follow Us Section */}
+        <Row className="text-center mb-4">
+          <Col>
+            <h5 className="fw-bold mb-3">Follow Us</h5>
+            <div className="d-flex justify-content-center gap-4">
+              <a href="https://facebook.com" className="text-white fs-3">
+                <FaFacebook />
+              </a>
+              <a href="https://twitter.com" className="text-white fs-3">
+                <FaTwitter />
+              </a>
+              <a href="https://instagram.com" className="text-white fs-3">
+                <FaInstagram />
+              </a>
+              <a href="https://linkedin.com" className="text-white fs-3">
+                <FaLinkedin />
+              </a>
+            </div>
+          </Col>
+        </Row>
 
-      {/* Bottom Footer */}
-      <div className="text-center text-gray-500 text-sm mt-8 border-t border-gray-700 pt-4">
-        © 2025 YourBrand. All Rights Reserved.
-      </div>
+        {/* Bottom Footer Section */}
+        <Row className="text-center">
+          <Col>
+            <Button variant="outline-light" className="px-5 py-2 mb-3" onClick={() => window.scrollTo(0, 0)}>
+              Back to Top
+            </Button>
+            <p className="text-muted small">© 2025 YourBrand. All Rights Reserved.</p>
+          </Col>
+        </Row>
+      </Container>
     </footer>
   );
 }

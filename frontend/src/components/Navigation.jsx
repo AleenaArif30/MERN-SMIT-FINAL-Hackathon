@@ -1,124 +1,114 @@
-import React, { useState } from "react";
+
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBars,
-  faSearch,
-  faGift,
-  faShoppingBag,
-  faChevronDown,
-  faTimes,
-  faHome,
-} from "@fortawesome/free-solid-svg-icons";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { Link } from "react-router-dom"; // Import Link for routing
-import logo from "../assets/images/logo (4).png";
+import { faShoppingBag, faHome } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import {
+  Navbar,
+  Nav,
+  Container,
+  Offcanvas,
+  Button,
+} from "react-bootstrap";
+
+// ✅ Replace with your updated logo path
+import images from "../assets/images/images.jpg";
+
 
 const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
-    <nav className="bg-white shadow-lg text-[#BD1521]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex-shrink-0">
-            <Link to="/">
-              <img className="h-8 w-auto md:h-30" src={logo} alt="logo" />
-            </Link>
-          </div>
+    <>
+      <Navbar expand="md" bg="dark" variant="dark" className="shadow-sm mb-3">
+        <Container fluid>
+          {/* Logo */}
+          <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+            <img
+              src={images}
+              alt="logo"
+              style={{ height: "60px", objectFit: "contain" }}
+              className="me-2"
+            />
+          </Navbar.Brand>
 
-          <div className="hidden sm:flex space-x-6 ">
-            <NavLink to="/" icon={faHome} text="Home" />
-            {isAuthenticated && <NavLink to="/profile" text="Profile" />}
-            <NavLink to="/products" text="Products" />
-            <NavLink to="/about" text="About" />
-            <NavLink to="/contact" text="Contact" />
+          {/* Offcanvas Toggle */}
+          <Navbar.Toggle aria-controls="offcanvasNavbar" />
 
-            {isAuthenticated ? (
-              <NavLink to="/logout" text="Logout" />
-            ) : (
-              <>
-                <NavLink to="/signup" text="Sign Up" />
-                <NavLink to="/login" text="Login" />
-              </>
-            )}
-          </div>
+          <Navbar.Offcanvas
+            id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel"
+            placement="end"
+            className="bg-dark text-white"
+          >
+            <Offcanvas.Header closeButton closeVariant="white">
+              <Offcanvas.Title id="offcanvasNavbarLabel" className="text-white">
+                Menu
+              </Offcanvas.Title>
+            </Offcanvas.Header>
 
-          <div className="flex gap-6">
-            <div className="flex items-center">
-              <Link to="/cart" className="relative flex items-center">
-                <FontAwesomeIcon
-                  icon={faShoppingBag}
-                  className="h-6 w-6 sm:h-8 sm:w-8 hover:text-[#4bf6d4] transition duration-300"
-                />
-              </Link>
-            </div>
+            <Offcanvas.Body>
+              {/* Center Nav Items */}
+              <Nav className="mx-auto text-center">
+                <NavLink to="/" icon={faHome} text="Home" />
+                {isAuthenticated && <NavLink to="/profile" text="Profile" />}
+                <NavLink to="/products" text="Products" />
+                <NavLink to="/about" text="About" />
+                <NavLink to="/contact" text="Contact" />
+                <Nav.Link as={Link} to="/cart">
+                  <FontAwesomeIcon icon={faShoppingBag} className="me-1" /> Cart
+                </Nav.Link>
+              </Nav>
 
-            <div className="sm:hidden">
-              <button
-                onClick={toggleMenu}
-                className="text-gray-500 hover:text-[#BD1521] focus:outline-none"
-              >
-                {isOpen ? (
-                  <FontAwesomeIcon icon={faTimes} className="h-6 w-6" />
+              {/* Right Side - Auth Buttons */}
+              <Nav className="ms-md-auto mt-3 mt-md-0 d-flex align-items-center gap-2 justify-content-md-end">
+                {isAuthenticated ? (
+                  <Button
+                    variant="outline-light"
+                    as={Link}
+                    to="/logout"
+                    size="sm"
+                    className="px-3"
+                  >
+                    Logout
+                  </Button>
                 ) : (
-                  <FontAwesomeIcon icon={faBars} className="h-6 w-6" />
+                  <>
+                    <Button
+                      variant="outline-light"
+                      as={Link}
+                      to="/signup"
+                      size="sm"
+                      className="px-3"
+                    >
+                      Sign Up
+                    </Button>
+                    <Button
+                      variant="light"
+                      as={Link}
+                      to="/login"
+                      size="sm"
+                      className="px-3"
+                    >
+                      Login
+                    </Button>
+                  </>
                 )}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        className={`${
-          isOpen ? "block" : "hidden"
-        } sm:hidden bg-white shadow-md`}
-      >
-        <div className="px-4 pt-2 pb-3 space-y-2">
-          <NavLinkMobile to="/" text="Home" onClick={toggleMenu} />
-          <NavLinkMobile to="/products" text="Products" onClick={toggleMenu} />
-          {isAuthenticated && <NavLinkMobile to="/profile" text="Profile" onClick={toggleMenu} />}
-          <NavLinkMobile to="/about" text="About" onClick={toggleMenu} />
-          <NavLinkMobile to="/contact" text="Contact" onClick={toggleMenu} />
-          <NavLinkMobile to="/signup" text="Sign Up" />
-          <NavLinkMobile to="/login" text="Login" />
-        </div>
-      </div>
-    </nav>
+              </Nav>
+            </Offcanvas.Body>
+          </Navbar.Offcanvas>
+        </Container>
+      </Navbar>
+    </>
   );
 };
 
 const NavLink = ({ to, icon, text }) => (
-  <Link
-    to={to}
-    className="flex items-center text-gray-700 hover:text-[#4bf6d4] transition duration-300 relative group"
-  >
-    {icon && (
-      <span className="mr-2">
-        <FontAwesomeIcon icon={icon} />
-      </span>
-    )}
-    <span>{text}</span>
-    <span className="absolute bottom-0 left-0 w-full bg-[#4bf6d4] h-0.5 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></span>
-  </Link>
-);
-
-const NavLinkMobile = ({ to, text, onClick }) => (
-  <Link
-    to={to}
-    onClick={onClick}
-    className="block py-2 px-3 text-gray-700 hover:text-[#BD1521] transition duration-300 relative group"
-  >
-    <span>{text}</span>
-    <span className="absolute bottom-0 left-0 w-full  h-0.5 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-  </Link>
+  <Nav.Link as={Link} to={to} className="text-white fw-medium px-3">
+    {icon && <FontAwesomeIcon icon={icon} className="me-2" />}
+    {text}
+  </Nav.Link>
 );
 
 export default Navigation;

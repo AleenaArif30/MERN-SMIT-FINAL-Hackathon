@@ -1,9 +1,12 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import * as Yup from "yup";
+import { Button, Form as BootstrapForm, Row, Col, Card } from 'react-bootstrap';
+
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 // Validation Schema (Same as Backend Joi)
@@ -19,7 +22,6 @@ const validationSchema = Yup.object({
     .matches(/^[^\s@]+@[^\s@]+\.(com|net)$/, "Only .com and .net domains are allowed")
     .required("Email is required"),
 
-
   password: Yup.string()
     .min(3, "Password must be at least 3 characters long")
     .max(30, "Password must not exceed 30 characters")
@@ -28,102 +30,113 @@ const validationSchema = Yup.object({
     .required("Password is required"),
 });
 
-const Signup = () => {
+const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-4">
-      <div className="relative flex flex-col rounded-xl bg-white shadow-lg p-6 w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-gray-800 text-center">Sign Up</h2>
-        <p className="text-gray-500 text-center mb-6">Welcome! Enter your details to register.</p>
+    <div className="d-flex justify-content-center align-items-center min-vh-100 bg-gradient p-3">
+      <Card className="w-100 shadow-lg" style={{ maxWidth: '500px', borderRadius: '15px' }}>
+        <Card.Body>
+          <h2 className="text-center mb-4">Sign Up</h2>
+          <p className="text-center text-muted mb-4">Create a new account and get started</p>
 
-        {/* ✅ Formik Handling */}
-        <Formik
-          initialValues={{ name: "", email: "", password: "" }}
-          validationSchema={validationSchema}
-          onSubmit={async (values) => {
-            setLoading(true);
-            console.log("values:", values);
-            try {
-              const response = await fetch(`${apiUrl}/auth/user`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(values),
-              });
+          <Formik
+            initialValues={{ name: "", email: "", password: "" }}
+            validationSchema={validationSchema}
+            onSubmit={async (values) => {
+              setLoading(true);
+              try {
+                const response = await fetch(`${apiUrl}/auth/user`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(values),
+                });
 
-              const data = await response.json();
-              setLoading(false);
-              console.log("Response:", response, "data", data);
-              if (response.ok) {  
-                toast.success(data.message);
-                navigate('/');
-              } else {
-                toast.error(data.message || "An error occurred while signing up");
+                const data = await response.json();
+                setLoading(false);
+                if (response.ok) {
+                  toast.success(data.message);
+                  navigate('/');
+                } else {
+                  toast.error(data.message || "An error occurred while signing up");
+                }
+              } catch (error) {
+                setLoading(false);
+                toast.error(error.message || "An error occurred while signing up");
               }
-            } catch (error) {
-              setLoading(false);
-              console.log("Error:", error);
-              toast.error(error.message || "An error occurred while signing up");
-            }
-          }}
-        >
-          <Form className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Your Name</label>
-              <Field
-                name="name"
-                type="text"
-                className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter your name"
-              />
-              <ErrorMessage name="name" component="p" className="text-red-500 text-sm" />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Email</label>
-              <Field
-                name="email"
-                type="email"
-                className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter your email"
-              />
-              <ErrorMessage name="email" component="p" className="text-red-500 text-sm" />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Password</label>
-              <div className='relative'>
+            }}
+          >
+            <Form>
+              <BootstrapForm.Group controlId="formName">
+                <BootstrapForm.Label>Your Name</BootstrapForm.Label>
                 <Field
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Enter your password"
+                  name="name"
+                  type="text"
+                  as={BootstrapForm.Control}
+                  placeholder="Enter your name"
                 />
-                <button
-                  type="button"
-                  className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 focus:outline-none'
-                  onClick={() => { setShowPassword(!showPassword) }}
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </button>
-                <ErrorMessage name="password" component="p" className="text-red-500 text-sm" />
-              </div>
-            </div>
+                <ErrorMessage name="name" component="div" className="text-danger" />
+              </BootstrapForm.Group>
 
-            <button
-              type="submit"
-              className="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-2 rounded-md transition-all duration-300 disabled:bg-gray-500"
-              disabled={loading}
-            >
-              {loading ? "Signing Up..." : "Sign Up"}
-            </button>
-          </Form>
-        </Formik>
-      </div>
+              <BootstrapForm.Group controlId="formEmail">
+                <BootstrapForm.Label>Email Address</BootstrapForm.Label>
+                <Field
+                  name="email"
+                  type="email"
+                  as={BootstrapForm.Control}
+                  placeholder="Enter your email"
+                />
+                <ErrorMessage name="email" component="div" className="text-danger" />
+              </BootstrapForm.Group>
+
+              <BootstrapForm.Group controlId="formPassword">
+                <BootstrapForm.Label>Password</BootstrapForm.Label>
+                <div className="position-relative">
+                  <Field
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    as={BootstrapForm.Control}
+                    placeholder="Enter your password"
+                  />
+                  <button
+                    type="button"
+                    className="position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
+                <ErrorMessage name="password" component="div" className="text-danger" />
+              </BootstrapForm.Group>
+
+              <Button
+                type="submit"
+                className="w-100 my-3"
+                variant="primary"
+                disabled={loading}
+              >
+                {loading ? "Signing Up..." : "Sign Up"}
+              </Button>
+            </Form>
+          </Formik>
+
+          <div className="text-center mt-3">
+            <p className="text-muted">
+              Already have an account?{" "}
+              <span
+                onClick={() => navigate("/login")}
+                className="text-primary cursor-pointer"
+              >
+                Log in
+              </span>
+            </p>
+          </div>
+        </Card.Body>
+      </Card>
     </div>
   );
 };
 
-export default Signup;
+export default SignUp;

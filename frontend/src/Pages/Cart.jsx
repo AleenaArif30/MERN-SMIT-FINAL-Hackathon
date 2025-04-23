@@ -1,264 +1,142 @@
-import { useEffect, useState } from 'react';
+
+
+
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button, Card, Col, Container, Row, Badge } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeFromCart, incrementQuantity, decrementQuantity } from '../store/cartSlice.mjs';
+
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-// Reusable Product Component
-const Product = ({ id, name, price, quantity, imageLight, imageDark, description }) => {
-	return (
-		<div className='rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6'>
-			<div className='space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0'>
-				<a href='#' className='shrink-0 md:order-1'>
-					<img className='h-20 w-20 dark:hidden' src={imageLight} alt={name} />
-					<img className='hidden h-20 w-20 dark:block' src={imageDark} alt={name} />
-				</a>
+// Product Card Component
+const Product = ({ _id, title, price, quantity, description, image }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // make sure it's already declared at the top
 
-				<label htmlFor={`counter-input-${id}`} className='sr-only'>
-					Choose quantity:
-				</label>
-				<div className='flex items-center justify-between md:order-3 md:justify-end'>
-					<div className='flex items-center'>
-						<button
-							type='button'
-							id={`decrement-button-${id}`}
-							className='inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700'>
-							<svg
-								className='h-2.5 w-2.5 text-gray-900 dark:text-white'
-								aria-hidden='true'
-								xmlns='http://www.w3.org/2000/svg'
-								fill='none'
-								viewBox='0 0 18 2'>
-								<path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M1 1h16' />
-							</svg>
-						</button>
-						<input
-							type='text'
-							id={`counter-input-${id}`}
-							className='w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white'
-							placeholder=''
-							required
-						/>
-						<button
-							type='button'
-							id={`increment-button-${id}`}
-							className='inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700'>
-							<svg
-								className='h-2.5 w-2.5 text-gray-900 dark:text-white'
-								aria-hidden='true'
-								xmlns='http://www.w3.org/2000/svg'
-								fill='none'
-								viewBox='0 0 18 18'>
-								<path
-									stroke='currentColor'
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									strokeWidth='2'
-									d='M9 1v16M1 9h16'
-								/>
-							</svg>
-						</button>
-					</div>
-					<div className='text-end md:order-4 md:w-32'>
-						<p className='text-base font-bold text-gray-900 dark:text-white'>${price}</p>
-					</div>
-				</div>
 
-				<div className='w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md'>
-					<a href='#' className='text-base font-medium text-gray-900 hover:underline dark:text-white'>
-						{name}
-					</a>
-					<div className='flex items-center gap-4'>
-						<button
-							type='button'
-							className='inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white'>
-							<svg
-								className='me-1.5 h-5 w-5'
-								aria-hidden='true'
-								xmlns='http://www.w3.org/2000/svg'
-								width='24'
-								height='24'
-								fill='none'
-								viewBox='0 0 24 24'>
-								<path
-									stroke='currentColor'
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									strokeWidth='2'
-									d='M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z'
-								/>
-							</svg>
-							Add to Favorites
-						</button>
+  return (
+    <Card className="mb-4 text-white shadow-sm" style={{
+      backgroundColor: '#1c1c1c',
+      borderRadius: '10px',
+      padding: '1rem',
+    }}>
+      <Row className="align-items-center">
+        <Col md={3} className="text-center">
+          <img
+            className="img-fluid rounded"
+            src={image}
+            alt={name}
+            style={{ maxHeight: '120px' }}
+          />
+        </Col>
 
-						<button
-							type='button'
-							className='inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500'>
-							<svg
-								className='me-1.5 h-5 w-5'
-								aria-hidden='true'
-								xmlns='http://www.w3.org/2000/svg'
-								width='24'
-								height='24'
-								fill='none'
-								viewBox='0 0 24 24'>
-								<path
-									stroke='currentColor'
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									strokeWidth='2'
-									d='M6 18 17.94 6M18 18 6.06 6'
-								/>
-							</svg>
-							Remove
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+        <Col md={6}>
+          {/* <h5 className="text-white">Title: {name}</h5> */}
+          <p className="text-white mb-1"><strong>Title:</strong> {title}</p>
+
+          <p className="text-white mb-1"><strong>Description:</strong> {description}</p>
+          <p className="text-white mb-1"><strong>Price:</strong> ${price}</p>
+          <Badge pill bg="light" text="dark">Quantity: {quantity}</Badge>
+
+          <div className="mt-2 d-flex gap-2 align-items-center">
+            <Button variant="outline-light" size="sm" onClick={() => dispatch(decrementQuantity(_id))}>-</Button>
+            <span className="text-white">{quantity}</span>
+            <Button variant="outline-light" size="sm" onClick={() => dispatch(incrementQuantity(_id))}>+</Button>
+          </div>
+
+          <h5 className="mt-3 text-warning">Total: ${price * quantity}</h5>
+        </Col>
+
+        <Col md={3} className="text-center d-flex flex-column justify-content-between">
+          <Button
+            variant="danger"
+            size="sm"
+            className="mb-2 w-100"
+            onClick={() => dispatch(removeFromCart(_id))}
+          >
+            Remove
+          </Button>
+          <Button
+            variant="outline-light"
+            size="sm"
+            onClick={() =>navigate ( '/products')}
+          >
+            Continue Shopping
+          </Button>
+        </Col>
+      </Row>
+    </Card>
+  );
 };
 
-// Main Shopping Cart Component
+// Main Cart Page Component
 const Cart = () => {
-	const navigate = useNavigate();
-	const [isLoggedIn, setLoggedIn] = useState(false);
-	useEffect(() => {
-		const fetchItems = async () => {
-			const token = localStorage.getItem('token');
-			if (!token) {
-				console.error('Unauthorized please log in');
-				navigate('/login');
-				return;
-			}
+  const navigate = useNavigate();
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const products = useSelector((state) => state.cart.items);
 
-			try {
-				const response = await fetch(`${apiUrl}/cart`, {
-					method: 'GET',
-					headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-					credentials: 'include',
-				});
+  const total = products.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-				const data = await response.json();
-				console.log(data);
-				if (data.success) {
-					setLoggedIn(true);
-				} else {
-					toast.error('Please login');
-					navigate('/login');
-				}
-			} catch (error) {
-				console.error('❌ error in fetching cart items', error);
-				setLoggedIn(false);
-			}
-		};
-		fetchItems();
-	}, []);
+  useEffect(() => {
+    const fetchItems = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
 
-	const products = [
-		{
-			id: 1,
-			name: 'PC system All in One APPLE iMac (2023) mqrq3ro/a, Apple M3, 24" Retina 4.5K, 8GB, SSD 256GB, 10-core GPU, Keyboard layout INT',
-			price: 1499,
-			quantity: 2,
-			imageLight: 'https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg',
-			imageDark: 'https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg',
-		},
-		{
-			id: 2,
-			name: 'Restored Apple Watch Series 8 (GPS) 41mm Midnight Aluminum Case with Midnight Sport Band',
-			price: 598,
-			quantity: 1,
-			imageLight: 'https://flowbite.s3.amazonaws.com/blocks/e-commerce/apple-watch-light.svg',
-			imageDark: 'https://flowbite.s3.amazonaws.com/blocks/e-commerce/apple-watch-dark.svg',
-		},
-		// Add more products as needed
-	];
+      try {
+        const response = await fetch(`${apiUrl}/cart`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: 'include',
+        });
 
-	if (!isLoggedIn) {
-		return ;
-	}
-	return (
-		<section className='bg-white py-8 antialiased dark:bg-gray-900 md:py-16'>
-			<div className='mx-auto max-w-screen-xl px-4 2xl:px-0'>
-				<h2 className='text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl'>Shopping Cart</h2>
+        const data = await response.json();
+        if (data.success) {
+          setLoggedIn(true);
+        } else {
+          toast.error('Please login');
+          navigate('/login');
+        }
+      } catch (error) {
+        console.error('Error fetching cart items:', error);
+        setLoggedIn(false);
+      }
+    };
 
-				<div className='mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8'>
-					<div className='mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl'>
-						<div className='space-y-6'>
-							{products.map((product) => (
-								<Product key={product.id} {...product} />
-							))}
-						</div>
-					</div>
+    fetchItems();
+  }, [navigate]);
 
-					<div className='mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full'>
-						<div className='space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6'>
-							<p className='text-xl font-semibold text-gray-900 dark:text-white'>Order summary</p>
+  if (!isLoggedIn) return null;
 
-							<div className='space-y-4'>
-								<div className='space-y-2'>
-									<dl className='flex items-center justify-between gap-4'>
-										<dt className='text-base font-normal text-gray-500 dark:text-gray-400'>Original price</dt>
-										<dd className='text-base font-medium text-gray-900 dark:text-white'>$7,592.00</dd>
-									</dl>
-
-									<dl className='flex items-center justify-between gap-4'>
-										<dt className='text-base font-normal text-gray-500 dark:text-gray-400'>Savings</dt>
-										<dd className='text-base font-medium text-green-600'>-$299.00</dd>
-									</dl>
-
-									<dl className='flex items-center justify-between gap-4'>
-										<dt className='text-base font-normal text-gray-500 dark:text-gray-400'>Store Pickup</dt>
-										<dd className='text-base font-medium text-gray-900 dark:text-white'>$99</dd>
-									</dl>
-
-									<dl className='flex items-center justify-between gap-4'>
-										<dt className='text-base font-normal text-gray-500 dark:text-gray-400'>Tax</dt>
-										<dd className='text-base font-medium text-gray-900 dark:text-white'>$799</dd>
-									</dl>
-								</div>
-
-								<dl className='flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700'>
-									<dt className='text-base font-bold text-gray-900 dark:text-white'>Total</dt>
-									<dd className='text-base font-bold text-gray-900 dark:text-white'>$8,191.00</dd>
-								</dl>
-							</div>
-
-							<a
-								href='#'
-								className='flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800'>
-								Proceed to Checkout
-							</a>
-
-							<div className='flex items-center justify-center gap-2'>
-								<span className='text-sm font-normal text-gray-500 dark:text-gray-400'> or </span>
-								<a
-									href='#'
-									title=''
-									className='inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500'>
-									Continue Shopping
-									<svg
-										className='h-5 w-5'
-										aria-hidden='true'
-										xmlns='http://www.w3.org/2000/svg'
-										fill='none'
-										viewBox='0 0 24 24'>
-										<path
-											stroke='currentColor'
-											strokeLinecap='round'
-											strokeLinejoin='round'
-											strokeWidth='2'
-											d='M19 12H5m14 0-4 4m4-4-4-4'
-										/>
-									</svg>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	);
+  return (
+    <Container className="py-5 text-white">
+      <h2 className="mb-4">Your Cart</h2>
+      <Row>
+        <Col md={12}>
+          {products.length > 0 ? (
+            <>
+              {products.map((product) => (
+                <Product key={product._id} {...product} />
+              ))}
+              <h4 className="mt-4 text-end">Total Amount: <span className="text-warning">${total}</span></h4>
+              <div className="text-end mt-3">
+                <Button variant="primary" className="px-4">Proceed to Checkout</Button>
+              </div>
+            </>
+          ) : (
+            <p>No products in your cart</p>
+          )}
+        </Col>
+      </Row>
+    </Container>
+  );
 };
 
 export default Cart;

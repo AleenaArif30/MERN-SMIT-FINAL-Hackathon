@@ -1,6 +1,24 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaBars, FaBox, FaChartBar, FaUsers, FaShoppingCart, FaTimes } from 'react-icons/fa';
+import {
+	Container,
+	Row,
+	Col,
+	Button,
+	Offcanvas,
+	ListGroup,
+	Card,
+} from 'react-bootstrap';
+import {
+	FaBars,
+	FaBox,
+	FaChartBar,
+	FaUsers,
+	FaShoppingCart,
+	FaTimes,
+} from 'react-icons/fa';
 import Products from './Products';
 
 const AdminDashboard = () => {
@@ -11,7 +29,6 @@ const AdminDashboard = () => {
 	const navigate = useNavigate();
 	const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-	// ✅ Check if the user is an admin before allowing access
 	const checkAdminStatus = async () => {
 		const token = localStorage.getItem('token');
 
@@ -37,7 +54,7 @@ const AdminDashboard = () => {
 
 			if (!data.success || !data.isAdmin) {
 				console.error('❌ User is not an admin, redirecting to login...');
-				localStorage.removeItem('authToken'); // 🔹 Remove invalid token
+				localStorage.removeItem('authToken');
 				navigate('/login');
 				return;
 			}
@@ -48,12 +65,10 @@ const AdminDashboard = () => {
 		}
 	};
 
-	// ✅ Run admin check and fetch data on component mount
 	useEffect(() => {
 		checkAdminStatus();
 	}, []);
 
-	// Function to toggle the sidebar
 	const toggleSidebar = () => {
 		setIsSidebarOpen(!isSidebarOpen);
 	};
@@ -61,83 +76,82 @@ const AdminDashboard = () => {
 	const renderContent = () => {
 		switch (activeTab) {
 			case 'Products':
-				return (
-					<div className='p-4'>
-						<Products />
-					</div>
-				);
+				return <Products />;
 			default:
-				return <div className='p-4'>Select an option from the menu</div>;
+				return <div>Select an option from the menu</div>;
 		}
 	};
 
 	return (
-		<div className='flex h-screen bg-gray-100'>
+		<div className="d-flex" style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
 			{/* Sidebar */}
-			<div
-				className={`fixed top-0 left-0 z-40 h-full bg-white shadow-lg transform ${
-					isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-				} transition-transform duration-300 sm:translate-x-0 sm:w-64`}>
-				<div className='flex items-center justify-between p-4 bg-teal-400'>
-					<h2 className='text-white text-xl font-bold'>Admin Dashboard</h2>
-					<button className='text-white sm:hidden' onClick={toggleSidebar}>
-						<FaTimes />
-					</button>
-				</div>
-				<nav className='p-4'>
-					<ul className='space-y-4'>
+			<Offcanvas
+				show={isSidebarOpen}
+				onHide={toggleSidebar}
+				backdrop={false}
+				responsive="sm"
+			>
+				<Offcanvas.Header closeButton className="bg-info text-white">
+					<Offcanvas.Title>Admin Dashboard</Offcanvas.Title>
+				</Offcanvas.Header>
+				<Offcanvas.Body>
+					<ListGroup variant="flush">
 						<MenuItem
 							icon={<FaChartBar />}
-							text='Dashboard'
+							text="Dashboard"
 							isActive={activeTab === 'Dashboard'}
 							onClick={() => setActiveTab('Dashboard')}
 						/>
-
 						<MenuItem
 							icon={<FaBox />}
-							text='Products'
+							text="Products"
 							isActive={activeTab === 'Products'}
 							onClick={() => setActiveTab('Products')}
 						/>
-					</ul>
-				</nav>
-			</div>
+					</ListGroup>
+				</Offcanvas.Body>
+			</Offcanvas>
 
 			{/* Main Content */}
-			<div className='flex flex-col flex-grow sm:ml-64'>
-				<header className='flex items-center justify-between p-4 bg-white shadow-md sm:hidden'>
-					<h2 className='text-lg font-semibold'>{activeTab}</h2>
-					<button onClick={toggleSidebar} className='text-orange-600'>
+			<div className="flex-grow-1 w-100">
+				{/* Mobile Header */}
+				<div className="d-sm-none d-flex justify-content-between align-items-center p-3 bg-white shadow-sm">
+					<h2 className="mb-0">{activeTab}</h2>
+					<Button variant="outline-warning" onClick={toggleSidebar}>
 						<FaBars />
-					</button>
-				</header>
-				<main className='flex-grow p-4'>{renderContent()}</main>
+					</Button>
+				</div>
+
+				<Container fluid className="p-4">
+					{renderContent()}
+				</Container>
 			</div>
 		</div>
 	);
 };
 
 const MenuItem = ({ icon, text, isActive, onClick }) => (
-	<li>
-		<button
-			onClick={onClick}
-			className={`flex items-center p-2 w-full text-left ${
-				isActive ? 'text-orange-600 bg-gray-100' : 'text-gray-700'
-			} hover:text-orange-600 hover:bg-gray-100 rounded-lg transition`}>
-			<span className='mr-2'>{icon}</span>
-			{text}
-		</button>
-	</li>
+	<ListGroup.Item
+		action
+		onClick={onClick}
+		active={isActive}
+		className="d-flex align-items-center gap-2"
+	>
+		<span>{icon}</span>
+		{text}
+	</ListGroup.Item>
 );
 
 const DashboardCard = ({ title, value, icon }) => (
-	<div className='flex items-center p-4 bg-white shadow rounded-lg'>
-		<div className='p-3 bg-gray-100 rounded-full'>{icon}</div>
-		<div className='ml-4'>
-			<h3 className='text-lg font-medium text-gray-700'>{title}</h3>
-			<p className='text-2xl font-bold text-gray-900'>{value}</p>
-		</div>
-	</div>
+	<Card className="mb-4 shadow-sm">
+		<Card.Body className="d-flex align-items-center">
+			<div className="p-3 bg-light rounded-circle">{icon}</div>
+			<div className="ms-3">
+				<Card.Title className="mb-0">{title}</Card.Title>
+				<h2 className="fw-bold">{value}</h2>
+			</div>
+		</Card.Body>
+	</Card>
 );
 
 export default AdminDashboard;

@@ -1,7 +1,17 @@
+
+
+
+
+
+
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Container, Spinner } from 'react-bootstrap';
 import AdminDashboard from '../components/AdminDashboard';
+
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
 const AdminPage = () => {
 	const navigate = useNavigate();
 	const [isAdmin, setIsAdmin] = useState(false);
@@ -11,7 +21,7 @@ const AdminPage = () => {
 		const checkAdminStatus = async () => {
 			try {
 				const token = localStorage.getItem('token');
-if (!token) {
+				if (!token) {
 					console.error('No auth token found! Redirecting to login.');
 					navigate('/login');
 					return;
@@ -45,7 +55,13 @@ if (!token) {
 	}, []);
 
 	if (loading) {
-		return <div>Loading...</div>;
+		return (
+			<Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+				<Spinner animation="border" role="status">
+					<span className="visually-hidden">Loading...</span>
+				</Spinner>
+			</Container>
+		);
 	}
 
 	if (!isAdmin) {
@@ -53,10 +69,11 @@ if (!token) {
 	}
 
 	return (
-		<div>
+		<Container>
 			<AdminDashboard />
-		</div>
+		</Container>
 	);
 };
 
 export default AdminPage;
+

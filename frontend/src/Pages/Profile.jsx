@@ -1,8 +1,160 @@
+
+
+
+// import React, { useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { toast } from "react-toastify";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
+// import { Container, Card, Spinner, Button, Row, Col } from "react-bootstrap";
+
+// const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+// const Profile = () => {
+//   const [user, setUser] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const fetchUserDetails = async () => {
+//       const token = localStorage.getItem("token");
+//       if (!token) {
+//         navigate("/login");
+//         return;
+//       }
+
+//       try {
+//         const response = await fetch(`${apiUrl}/auth/user/me`, {
+//           method: "GET",
+//           headers: {
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${token}`,
+//           },
+//         });
+
+//         const data = await response.json();
+//         if (response.ok) {
+//           setUser(data.user);
+//         } else {
+//           toast.error(data.message || "Failed to fetch user details");
+//           navigate("/login");
+//         }
+//       } catch (error) {
+//         console.error("Error:", error);
+//         toast.error("An error occurred while fetching user details");
+//         navigate("/login");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchUserDetails();
+//   }, [navigate]);
+
+//   const deleteUser = async (id) => {
+//     try {
+//       const response = await fetch(`${apiUrl}/auth/user/${id}`, {
+//         method: "DELETE",
+//       });
+
+//       const result = await response.json();
+//       if (response.ok) {
+//         localStorage.removeItem("token");
+//         localStorage.removeItem("userId");
+//         navigate("/signup");
+//       } else {
+//         toast.error(result.message || "Failed to delete user");
+//       }
+//     } catch (error) {
+//       console.error("Error:", error);
+//       toast.error("An error occurred while deleting user");
+//     }
+//   };
+
+//   if (loading) {
+//     return (
+//       <Container className="d-flex justify-content-center align-items-center min-vh-100">
+//         <Spinner animation="border" variant="dark" />
+//       </Container>
+//     );
+//   }
+
+//   if (!user) {
+//     return (
+//       <Container className="d-flex justify-content-center align-items-center min-vh-100">
+//         <p className="text-muted fs-5">No user data available</p>
+//       </Container>
+//     );
+//   }
+
+//   return (
+//     <Container className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+//       <Card className="shadow-lg w-100" style={{ maxWidth: "500px" }}>
+//         <Card.Header className="bg-dark text-white d-flex justify-content-between align-items-center">
+//           <span>Welcome back, {user.name}!</span>
+//           <div className="d-flex gap-3">
+//             <FontAwesomeIcon
+//               icon={faUserPen}
+//               className="hover-icon"
+//               onClick={() => navigate("/update")}
+//               style={{ cursor: "pointer" }}
+//             />
+//             <FontAwesomeIcon
+//               icon={faTrash}
+//               className="hover-icon"
+//               onClick={() => deleteUser(user._id)}
+//               style={{ cursor: "pointer" }}
+//             />
+//           </div>
+//         </Card.Header>
+
+//         <Card.Body>
+//           <Row className="mb-3">
+//             <Col>
+//               <strong>Name</strong>
+//               <div className="bg-light border rounded p-2 mt-1">{user.name}</div>
+//             </Col>
+//           </Row>
+
+//           <Row className="mb-3">
+//             <Col>
+//               <strong>Email</strong>
+//               <div className="bg-light border rounded p-2 mt-1">{user.email}</div>
+//             </Col>
+//           </Row>
+
+//           <Row className="mb-3">
+//             <Col>
+//               <strong>Joined On</strong>
+//               <div className="bg-light border rounded p-2 mt-1">
+//                 {new Date(user.created_at).toLocaleDateString()}
+//               </div>
+//             </Col>
+//           </Row>
+//         </Card.Body>
+
+//         <Card.Footer className="bg-light">
+//           <Button
+//             variant="dark"
+//             className="w-100"
+//             onClick={() => navigate("/")}
+//           >
+//             Go to Home
+//           </Button>
+//         </Card.Footer>
+//       </Card>
+//     </Container>
+//   );
+// };
+
+// export default Profile;
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
+import { Container, Card, Spinner, Button, Row, Col } from "react-bootstrap";
+
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 const Profile = () => {
@@ -30,7 +182,6 @@ const Profile = () => {
         const data = await response.json();
         if (response.ok) {
           setUser(data.user);
-          console.log(data.user)
         } else {
           toast.error(data.message || "Failed to fetch user details");
           navigate("/login");
@@ -47,97 +198,98 @@ const Profile = () => {
     fetchUserDetails();
   }, [navigate]);
 
+  const deleteUser = async (id) => {
+    try {
+      const response = await fetch(`${apiUrl}/auth/user/${id}`, {
+        method: "DELETE",
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        navigate("/signup");
+      } else {
+        toast.error(result.message || "Failed to delete user");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("An error occurred while deleting user");
+    }
+  };
+
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
-      </div>
+      <Container className="d-flex justify-content-center align-items-center min-vh-100 bg-dark">
+        <Spinner animation="border" variant="light" />
+      </Container>
     );
   }
 
   if (!user) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-gray-700 text-lg">No user data available</p>
-      </div>
+      <Container className="d-flex justify-content-center align-items-center min-vh-100 bg-dark text-white">
+        <p className="fs-5">No user data available</p>
+      </Container>
     );
   }
 
-  let deleteUser = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/auth/user/${id}`, {
-        method: "DELETE"
-      });
-
-      const result = await response.json();
-      if (response.ok) {
-        console.log("User deleted:", result);
-      localStorage.removeItem('token');
-      localStorage.removeItem('userId');
-        navigate("/signup");
-      } else {
-        toast.error(data.message || "Failed to delete user");
-      }
-    }
-    catch (error) {
-      console.error("Error:", error);
-      toast.error("An error occurred while delete user");
-    }
-  }
-
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden">
-        {/* Card Header */}
-        <div className="bg-gray-800 text-white p-6 flex">
-          <p className="text-gray-300 w-64 flex-1 ">Welcome back, {user.name}!</p>
-          <div>
+    <Container className="d-flex justify-content-center align-items-center min-vh-100 bg-black text-white py-5">
+      <Card className="shadow-lg w-100 border-0" style={{ maxWidth: "550px", background: "#1e1e1e", borderRadius: "15px" }}>
+        <Card.Header className="d-flex justify-content-between align-items-center py-3 px-4" style={{ background: "#2d2d2d", borderRadius: "15px 15px 0 0" }}>
+          <span className="fw-semibold text-white">👋 Welcome, {user.name}</span>
+          <div className="d-flex gap-3">
             <FontAwesomeIcon
               icon={faUserPen}
-              className="h-6 w-6 sm:h-8 sm:w-8 hover:text-[#4bf6d4] transition duration-300"
+              style={{ cursor: "pointer", color: "#4bf6d4" }}
               onClick={() => navigate("/update")}
             />
             <FontAwesomeIcon
               icon={faTrash}
-              className="h-6 w-6 sm:h-8 sm:w-8 hover:text-[#4bf6d4] transition duration-300"
-              onClick={async () => { await deleteUser(user._id) }}
+              style={{ cursor: "pointer", color: "#ff6b6b" }}
+              onClick={() => deleteUser(user._id)}
             />
           </div>
-        </div>
+        </Card.Header>
 
-        {/* Card Body */}
-        <div className="p-6 space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
-            <p className="mt-1 p-2 bg-gray-50 rounded-md">{user.name}</p>
-          </div>
+        <Card.Body className="px-4 pt-4">
+          <Row className="mb-3">
+            <Col>
+              <div className="text-muted small">Name</div>
+              <div className="bg-dark text-white border rounded p-2 mt-1">{user.name}</div>
+            </Col>
+          </Row>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
-            <p className="mt-1 p-2 bg-gray-50 rounded-md">{user.email}</p>
-          </div>
+          <Row className="mb-3">
+            <Col>
+              <div className="text-muted small">Email</div>
+              <div className="bg-dark text-white border rounded p-2 mt-1">{user.email}</div>
+            </Col>
+          </Row>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Joined On</label>
-            <p className="mt-1 p-2 bg-gray-50 rounded-md">
-              {new Date(user.created_at).toLocaleDateString()}
-            </p>
-          </div>
-        </div>
+          <Row className="mb-3">
+            <Col>
+              <div className="text-muted small">Joined On</div>
+              <div className="bg-dark text-white border rounded p-2 mt-1">
+                {new Date(user.created_at).toLocaleDateString()}
+              </div>
+            </Col>
+          </Row>
+        </Card.Body>
 
-        {/* Card Footer */}
-        <div className="bg-gray-50 p-4">
-   
-
-          <button
+        <Card.Footer className="bg-transparent px-4 pb-4">
+          <Button
+            variant="outline-light"
+            className="w-100"
+            style={{ borderColor: "#4bf6d4", color: "#4bf6d4" }}
             onClick={() => navigate("/")}
-            className="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-2 rounded-md transition-all duration-300"
           >
             Go to Home
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </Card.Footer>
+      </Card>
+    </Container>
   );
 };
 

@@ -1,43 +1,109 @@
+// import React from 'react';
+// import { Container, Row, Col, Image } from 'react-bootstrap';
+// import ab from '../assets/images/ab.jpg'; // ✅ Replace with your preferred image
+
+// const About = () => {
+//   return (
+//     <div style={{ backgroundColor: '#111', color: '#f8f9fa' }}>
+//       <Container className="py-5">
+//         <Row className="align-items-center g-5">
+//           {/* 📝 Text */}
+//           <Col md={6}>
+//             <h1 className="fw-bold display-5 mb-4" style={{ color: '#FF9AA2' }}>
+//               Welcome to <span style={{ color: '#4bf6d4' }}>Glamora</span>
+//             </h1>
+
+//             <p className="lead" style={{ color: '#e0e0e0' }}>
+//               At <span style={{ color: '#FFDAC1' }} className="fw-semibold">Glamora</span>, makeup isn't just a product—
+//               it's your power, your confidence, your creativity.
+//             </p>
+
+//             <p style={{ color: '#c4c4c4' }}>
+//               We're here to celebrate every shade, every style, and every story. Our handpicked selection of premium makeup
+//               is designed to help you look stunning and feel unstoppable.
+//             </p>
+
+//             <p style={{ color: '#c4c4c4' }}>
+//               Whether you're glamming up for an event or experimenting with new looks, Glamora is your go-to beauty playground.
+//               Together, we redefine beauty on your terms.
+//             </p>
+
+//             <p className="fw-semibold" style={{ color: '#4bf6d4' }}>
+//               Be bold. Be beautiful. Be Glamora.
+//             </p>
+//           </Col>
+
+//           {/* 📷 Image */}
+//           <Col md={6} className="text-center">
+//             <Image
+//               src={ab}
+//               alt="Glamora makeup collection"
+//               fluid
+//               className="rounded-4 shadow-lg"
+//               style={{
+//                 maxWidth: '100%',
+//                 maxHeight: '500px',
+//                 border: '5px solid #FF9AA2',
+//               }}
+//             />
+//           </Col>
+//         </Row>
+//       </Container>
+//     </div>
+//   );
+// };
+
+// export default About;
 import React from 'react';
+import { Container, Row, Col, Image } from 'react-bootstrap';
+import ab from '../assets/images/ab.jpg'; // ✅ Replace with your preferred image
 
 const About = () => {
-	return (
-		<div className='container mx-auto my-28 px-4'>
-			<div className='flex flex-col md:flex-row items-center justify-between'>
-				{/* Text Content */}
-				<div className='w-full md:w-1/2 mb-8 md:mb-0'>
-					<h1 className='text-4xl md:text-5xl font-bold mb-6 text-gray-900'>Welcome to Glamora</h1>
-					<p className='text-lg text-gray-800 leading-relaxed'>
-						At <span className='font-semibold text-[#e57312]'>Glamora</span>, we believe that makeup is more than just a
-						product—it's a way to express yourself, enhance your natural beauty, and feel confident in your own skin.
-					</p>
-					<p className='text-lg text-gray-800 leading-relaxed mt-4'>
-						Our mission is to provide you with the highest quality makeup products from trusted brands around the world.
-						From bold lipsticks to flawless foundations, we've curated a collection that caters to every style, skin
-						tone, and occasion.
-					</p>
-					<p className='text-lg text-gray-800 leading-relaxed mt-4'>
-						But we're more than just a store—we're a community of beauty enthusiasts. Whether you're a makeup pro or
-						just starting your beauty journey, we're here to inspire, guide, and help you find the perfect products for
-						your unique look.
-					</p>
-					<p className='text-lg text-gray-800 leading-relaxed mt-4'>
-						Thank you for choosing <span className='font-semibold text-[#4bf6d4]'>Glamora</span>. Let's create something
-						beautiful together!
-					</p>
-				</div>
+  return (
+    <div style={{ backgroundColor: '#111', color: '#f8f9fa' }}>
+      <Container className="py-5">
+        <Row className="align-items-center g-5">
+          {/* 📝 Text */}
+          <Col md={6}>
+            <h1 className="fw-bold display-5 mb-4" style={{ color: '#FF9AA2' }}>
+              Discover the World of <span style={{ color: '#4bf6d4' }}>Glamora</span>
+            </h1>
 
-				{/* Image or Illustration */}
-				<div className='w-full md:w-1/2 flex justify-center md:justify-end'>
-					<img
-						src='https://via.placeholder.com/500' // Replace with your image URL
-						alt='About Glamora'
-						className='rounded-lg shadow-lg w-full max-w-md'
-					/>
-				</div>
-			</div>
-		</div>
-	);
+            <p className="lead" style={{ color: '#e0e0e0' }}>
+              At <span style={{ color: '#FFDAC1' }} className="fw-semibold">Glamora</span>, we believe beauty is more than skin deep—it's a reflection of your inner confidence and limitless creativity.
+            </p>
+
+            <p style={{ color: '#c4c4c4' }}>
+              Our curated collection of premium beauty products is designed to empower you. Whether you're getting ready for an unforgettable night out or embracing your everyday glow, <span style={{ color: '#FFDAC1' }} className="fw-semibold">Glamora</span> is here to elevate your look.
+            </p>
+
+            <p style={{ color: '#c4c4c4' }}>
+              Each product at Glamora is carefully chosen to suit a diverse range of styles and skin tones. From bold statements to timeless elegance, we're here to help you discover the beauty that resonates with you.
+            </p>
+
+            <p className="fw-semibold" style={{ color: '#4bf6d4' }}>
+              Embrace your uniqueness. Shine your brightest. Be Glamora.
+            </p>
+          </Col>
+
+          {/* 📷 Image */}
+          <Col md={6} className="text-center">
+            <Image
+              src={ab}
+              alt="Glamora makeup collection"
+              fluid
+              className="rounded-4 shadow-lg"
+              style={{
+                maxWidth: '100%',
+                maxHeight: '500px',
+                border: '5px solid #FF9AA2',
+              }}
+            />
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
 };
 
 export default About;
