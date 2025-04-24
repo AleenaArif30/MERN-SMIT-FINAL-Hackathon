@@ -16,7 +16,7 @@ app.use(
 		origin: ['http://localhost:5174',
 			 'http://localhost:5173',
  
-			'https://mern-stack-project-ecommerce-93vw-70m4p0vu6.vercel.app' ,
+			'https://mern-stack-project-ecommerce-93vw-7fwsjpjpb.vercel.app' ,
 
 			 
 		
