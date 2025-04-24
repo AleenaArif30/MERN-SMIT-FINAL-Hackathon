@@ -4,19 +4,19 @@ import React from 'react';
 import './App.css'
 
 import { Routes, Route, useLocation  } from 'react-router-dom';
-import Home from './pages/Home.jsx';
+import Home from './Pages/Home.jsx';
 import Navigation from './components/Navigation';
-import Contact from './pages/Contact.jsx';
-import About from './pages/About.jsx';
+import Contact from './Pages/Contact.jsx';
+import About from './Pages/About.jsx';
 import Footer from './components/Footer';
-import LoginPage from './pages/LoginPage.jsx';
-import SignUp from './pages/Signup.jsx';
-import Cart from './pages/Cart.jsx';
-import Logout from './pages/Logout.jsx';
-import Profile from './pages/Profile.jsx';
-import AdminPage from './pages/AdminPage.jsx';
-import Products from './pages/Products.jsx';
-import Update from './pages/Update.jsx';
+import LoginPage from './Pages/LoginPage.jsx';
+import SignUp from './Pages/Signup.jsx';
+import Cart from './Pages/Cart.jsx';
+import Logout from './Pages/Logout.jsx';
+import Profile from './Pages/Profile.jsx';
+import AdminPage from './Pages/AdminPage.jsx';
+import Products from './Pages/Products.jsx';
+import Update from './Pages/Update.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

@@ -15,7 +15,7 @@ app.use(
 	cors({
 		origin: ['http://localhost:5174',
 			 'http://localhost:5173',
-			'https://mer-nstack-batch11-section-j-nu.vercel.app',
+			'https://mern-stack-project-ecommerce-93vw-70m4p0vu6.vercel.app',
 			
 			],
 		methods: ['GET', 'PUT', 'POST', 'DELETE'],
