@@ -8,8 +8,15 @@ import cors from "cors";
 import connectToDB from "./db/index.mjs";
 
 //Connecting MongoDB
-connectToDB()
+
 const app = express();
+
+connectToDB()
+// const app = express();
+
+
+app.use(express.json());
+
 
 app.use(
 	cors({
@@ -19,7 +26,8 @@ app.use(
  
 
 			 
-		
+		/\.vercel\.app$/,
+		/\.up\.railway\.app$/
 			
 			],
 		methods: ['GET', 'PUT', 'POST', 'DELETE'],
@@ -29,7 +37,7 @@ app.use(
 );
 
 
-app.use(express.json());
+// app.use(express.json());
 const port = 5000;
 app.use("/api/auth",userRoutes)
 app.use("/api/cart",cartRoutes)

@@ -4,7 +4,7 @@ import uploadToCloudinary from '../config/cloudinary.mjs';
 
 export const addProduct = async (req, res) => {
 	try {
-		const { name, price, description } = req.body;
+		const { name, price, description,_id } = req.body;
 
 		// Validate input
 		if (!name || !price || !req.file ) {
