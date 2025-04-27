@@ -52,13 +52,9 @@ const Navigation = () => {
               {/* Center Nav Items */}
               <Nav className="mx-auto text-center">
                 <NavLink to="/" icon={faHome} text="Home" />
-                {isAuthenticated && <NavLink to="/profile" text="Profile" />}
                 <NavLink to="/products" text="Products" />
-                <NavLink to="/about" text="About" />
-                <NavLink to="/contact" text="Contact" />
-                <Nav.Link as={Link} to="/cart">
-                  <FontAwesomeIcon icon={faShoppingBag} className="me-1" /> Cart
-                </Nav.Link>
+               
+              
               </Nav>
 
               {/* Right Side - Auth Buttons */}

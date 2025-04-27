@@ -50,7 +50,7 @@ const LoginPage = () => {
           })
         );
         toast.success(data.message);
-        navigate("/");
+        navigate("/products");
       } else {
         toast.error(data.message || "Invalid email or password");
       }

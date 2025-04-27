@@ -3,6 +3,8 @@ import mongoose from "./db/index.mjs";
 import userRoutes from "./routes/userRoutes.mjs"
 import cartRoutes from "./routes/cartRoutes.mjs"
 import productRoutes from "./routes/productRoutes.mjs"
+import taskRoutes from './routes/taskRoutes.mjs';
+
 import chalk from "chalk";
 import cors from "cors";
 import connectToDB from "./db/index.mjs";
@@ -40,6 +42,10 @@ app.use(
 // app.use(express.json());
 const port = 5000;
 app.use("/api/auth",userRoutes)
+// Existing app.use setup ke neeche:
+app.use('/api/tasks', taskRoutes);
+
+
 app.use("/api/cart",cartRoutes)
 app.use('/api/products', productRoutes);
 
