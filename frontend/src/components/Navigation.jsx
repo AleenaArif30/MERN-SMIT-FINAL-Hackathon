@@ -52,7 +52,7 @@ const Navigation = () => {
               {/* Center Nav Items */}
               <Nav className="mx-auto text-center">
                 <NavLink to="/" icon={faHome} text="Home" />
-                <NavLink to="/products" text="Products" />
+                <NavLink to="/task" text="task" />
                
               
               </Nav>

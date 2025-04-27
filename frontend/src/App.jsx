@@ -15,7 +15,7 @@ import Cart from './Pages/Cart.jsx';
 import Logout from './Pages/Logout.jsx';
 import Profile from './Pages/Profile.jsx';
 import AdminPage from './Pages/AdminPage.jsx';
-import Products from './Pages/Products.jsx';
+import Task from './Pages/Task.jsx';
 import Update from './Pages/Update.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -48,7 +48,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/admin" element={<AdminPage />} />
-        <Route path='/products' element={<Products />} />
+        <Route path='/task' element={<Task />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/update" element={<Update />} />
     </Routes>
