@@ -1,110 +1,81 @@
 
+
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingBag, faHome } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {
-  Navbar,
-  Nav,
-  Container,
-  Offcanvas,
-  Button,
-} from "react-bootstrap";
-
-// ✅ Replace with your updated logo path
-import images from "../assets/images/images.jpg";
-
+import { Navbar, Nav, Container, Offcanvas, Button } from "react-bootstrap";
 
 const Navigation = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
-    <>
-      <Navbar expand="md" bg="dark" variant="dark" className="shadow-sm mb-3">
-        <Container fluid>
-          {/* Logo */}
-          <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
-            <img
-              src={images}
-              alt="logo"
-              style={{ height: "60px", objectFit: "contain" }}
-              className="me-2"
-            />
-          </Navbar.Brand>
+    <Navbar expand="md" bg="black" variant="dark" className="shadow-sm mb-3">
+      <Container fluid className="justify-content-center">
+        <Navbar.Toggle aria-controls="offcanvasNavbar" />
 
-          {/* Offcanvas Toggle */}
-          <Navbar.Toggle aria-controls="offcanvasNavbar" />
+        <Navbar.Offcanvas
+          id="offcanvasNavbar"
+          aria-labelledby="offcanvasNavbarLabel"
+          placement="end"
+          className="bg-black text-white"
+        >
+          <Offcanvas.Header closeButton closeVariant="white">
+            <Offcanvas.Title id="offcanvasNavbarLabel" className="text-warning">
+              Menu
+            </Offcanvas.Title>
+          </Offcanvas.Header>
 
-          <Navbar.Offcanvas
-            id="offcanvasNavbar"
-            aria-labelledby="offcanvasNavbarLabel"
-            placement="end"
-            className="bg-dark text-white"
-          >
-            <Offcanvas.Header closeButton closeVariant="white">
-              <Offcanvas.Title id="offcanvasNavbarLabel" className="text-white">
-                Menu
-              </Offcanvas.Title>
-            </Offcanvas.Header>
-
-            <Offcanvas.Body>
-              {/* Center Nav Items */}
-              <Nav className="mx-auto text-center">
-                <NavLink to="/" icon={faHome} text="Home" />
-                <NavLink to="/task" text="task" />
-               
-              
-              </Nav>
-
-              {/* Right Side - Auth Buttons */}
-              <Nav className="ms-md-auto mt-3 mt-md-0 d-flex align-items-center gap-2 justify-content-md-end">
-                {isAuthenticated ? (
-                  <Button
-                    variant="outline-light"
-                    as={Link}
-                    to="/logout"
-                    size="sm"
-                    className="px-3"
-                  >
-                    Logout
-                  </Button>
-                ) : (
-                  <>
-                    <Button
-                      variant="outline-light"
-                      as={Link}
-                      to="/signup"
-                      size="sm"
-                      className="px-3"
-                    >
-                      Sign Up
-                    </Button>
-                    <Button
-                      variant="light"
-                      as={Link}
-                      to="/login"
-                      size="sm"
-                      className="px-3"
-                    >
-                      Login
-                    </Button>
-                  </>
-                )}
-              </Nav>
-            </Offcanvas.Body>
-          </Navbar.Offcanvas>
-        </Container>
-      </Navbar>
-    </>
+          <Offcanvas.Body className="d-flex align-items-center justify-content-center">
+          
+            <Nav className="text-center d-flex flex-row gap-4">
+              <NavLink to="/" text="Home" />
+              <NavLink to="/task" text="Task" />
+              {isAuthenticated ? (
+                <NavButton to="/logout" text="Logout" />
+              ) : (
+                <>
+                  <NavButton to="/signup" text="Sign Up" />
+                  <NavButton to="/login" text="Login" />
+                </>
+              )}
+            </Nav>
+          </Offcanvas.Body>
+        </Navbar.Offcanvas>
+      </Container>
+    </Navbar>
   );
 };
 
-const NavLink = ({ to, icon, text }) => (
-  <Nav.Link as={Link} to={to} className="text-white fw-medium px-3">
-    {icon && <FontAwesomeIcon icon={icon} className="me-2" />}
+const NavLink = ({ to, text }) => {
+  const location = useLocation();
+  return (
+    <Nav.Link
+      as={Link}
+      to={to}
+      className={`fw-bold fs-5 px-3 py-2 rounded ${
+        location.pathname === to ? "bg-warning text-black" : "text-white"
+      }`}
+      style={{
+        transition: "all 0.3s ease",
+      }}
+    >
+      {text}
+    </Nav.Link>
+  );
+};
+
+const NavButton = ({ to, text }) => (
+  <Button
+    as={Link}
+    to={to}
+    size="sm"
+    className="fw-bold fs-5 px-3 py-2 bg-warning text-black border-0 rounded"
+    style={{
+      transition: "all 0.3s ease",
+    }}
+  >
     {text}
-  </Nav.Link>
+  </Button>
 );
 
 export default Navigation;

@@ -2,7 +2,7 @@
 import Task from "../models/task/index.mjs";
 
 // Create a new Task
- const createTask = async (req, res) => {
+const createTask = async (req, res) => {
   try {
     const { title, description, assignedTo } = req.body;
     const task = new Task({ title, description, assignedTo });
@@ -14,7 +14,7 @@ import Task from "../models/task/index.mjs";
 };
 
 // Get All Tasks
- const getTasks = async (req, res) => {
+const getTasks = async (req, res) => {
   try {
     const tasks = await Task.find().populate('assignedTo', 'name email');
     res.json(tasks);
@@ -24,7 +24,7 @@ import Task from "../models/task/index.mjs";
 };
 
 // Update Task
- const updateTask = async (req, res) => {
+const updateTask = async (req, res) => {
   try {
     const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(task);
@@ -34,7 +34,7 @@ import Task from "../models/task/index.mjs";
 };
 
 // Delete Task
- const deleteTask = async (req, res) => {
+const deleteTask = async (req, res) => {
   try {
     await Task.findByIdAndDelete(req.params.id);
     res.json({ message: "Task deleted successfully" });
@@ -43,40 +43,26 @@ import Task from "../models/task/index.mjs";
   }
 };
 
-// Move Task (Change Status)
-//  const moveTask = async (req, res) => {
-//   try {
-//     const { status } = req.body;
-//     const task = await Task.findById(req.params.id);
-//     if (!task) return res.status(404).json({ message: "Task not found" });
-
-//     task.status = status;
-//     await task.save();
-//     res.json(task);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
 
 
 const moveTask = async (req, res) => {
   try {
-    const { status } = req.body; // Expecting status as part of the request body
-    const task = await Task.findById(req.params.id); // Find the task by ID
+    const { status } = req.body;
+    const task = await Task.findById(req.params.id);
 
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }
 
-    // Validate the new status
+
     if (!["To Do", "In Progress", "Done"].includes(status)) {
       return res.status(400).json({ message: "Invalid status" });
     }
 
-    task.status = status; // Update task status
-    await task.save(); // Save the task with the new status
+    task.status = status;
+    await task.save();
 
-    res.json(task); // Send back the updated task
+    res.json(task);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

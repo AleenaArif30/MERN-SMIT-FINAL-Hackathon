@@ -187,10 +187,10 @@ const Task = () => {
 
   return (
     <Container className="py-4">
-      <h2 className="text-center mb-4 text-warning">Task Management</h2>
+      <h2 className="text-center mb-4 text-success">Here we will Manage your tasks,lets's start</h2>
 
       {/* Add Task Form */}
-      <Card className="mb-4">
+      <Card className="mb-4 bg-black text-white">
         <Card.Body>
           <Form onSubmit={taskToEdit ? handleUpdateTask : createTask}>
             <Row className="align-items-end">
@@ -249,25 +249,25 @@ const Task = () => {
         </Card.Body>
       </Card>
 
-      {/* 3 Columns for Tasks */}
+      
       <Row>
         <Col md={4}>
-          <h4 className="text-center text-primary">To Do</h4>
+          <h4 className="text-center text-white bg-black ">To Do</h4>
           {todoTasks.length ? todoTasks.map(renderTaskCard) : <p className="text-center">No tasks</p>}
         </Col>
 
         <Col md={4}>
-          <h4 className="text-center text-info">In Progress</h4>
+          <h4 className="text-center text-info bg-black">In Progress</h4>
           {inProgressTasks.length ? inProgressTasks.map(renderTaskCard) : <p className="text-center">No tasks</p>}
         </Col>
 
         <Col md={4}>
-          <h4 className="text-center text-success">Done</h4>
+          <h4 className="text-center text-success bg-black">Done</h4>
           {doneTasks.length ? doneTasks.map(renderTaskCard) : <p className="text-center">No tasks</p>}
         </Col>
       </Row>
 
-      {/* Modal for Editing Task */}
+    
       {taskToEdit && (
         <Modal show={true} onHide={() => dispatch(setTaskToEdit(null))}>
           <Modal.Header closeButton>
